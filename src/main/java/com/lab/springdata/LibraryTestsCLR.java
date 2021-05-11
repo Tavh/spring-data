@@ -28,7 +28,6 @@ public class LibraryTestsCLR implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("asgfokjsadlghjasdlohalsjhnfdlkajndsl;yghj2o0i4uh6jy9q86uy 1-02h yorwi");
 		List<Book> books = List.of(new Book("Norwegian wood", EARLIEST_DATE), new Book("Kafka on the shore", LATEST_DATE));
 		int authorId = saveAuthorTest(new Author("Haruki murakami", 61.42f, books));
 		findAllBooksTest(books.size());
