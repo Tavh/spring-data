@@ -47,10 +47,9 @@ public class DevRunner implements CommandLineRunner {
 	
 	private void deleteAuthorTest(int id) throws LibraryCustomException {
 		libraryService.deleteAuthor(id);
-		if (authorRepository.findById(id).isEmpty()) {
-			return;
-		}
-		throw new LibraryCustomException("Library test failure! - deleteAuthorTest");
+		if (!authorRepository.findById(id).isEmpty()) {
+			throw new LibraryCustomException("Library test failure! - deleteAuthorTest");
+		}	
 	}
 	
 
