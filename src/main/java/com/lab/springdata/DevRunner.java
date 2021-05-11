@@ -30,7 +30,7 @@ public class DevRunner implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		List<Book> books = List.of(new Book("Norwegian wood", EARLIEST_DATE), new Book("Kafka on the shore", LATEST_DATE));
 		int authorId = saveAuthorTest(new Author("Haruki murakami", 61.42f, books));
-		findAllBooksTest();
+		findAllBooksTest(books.size());
 		findBooksByTimeRangeTest();
 		findBooksByTimeRangeInvalidTest();
 		deleteAuthorTest(authorId);
@@ -53,14 +53,14 @@ public class DevRunner implements CommandLineRunner {
 	}
 	
 
-	private void findAllBooksTest() throws LibraryCustomException {
-		if (libraryService.findAllBooks().size() != 2) {
+	private void findAllBooksTest(int booksCount) throws LibraryCustomException {
+		if (libraryService.findAllBooks().size() != booksCount) {
 			throw new LibraryCustomException("Library test failure! - findAllBooks");
 		}
 	}
 	
 	private void findBooksByTimeRangeTest() throws LibraryCustomException {
-		if (libraryService.findBooksByTimeRange(new TimePeriod(EARLIEST_DATE, LATEST_DATE)).size() != 2) {
+		if (libraryService.findBooksByTimeRange(new TimePeriod(EARLIEST_DATE, LATEST_DATE - 1)).size() != 1) {
 			throw new LibraryCustomException("Library test failure! - findBooksByTimeRangeTest");
 		}
 	}
