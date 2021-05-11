@@ -1,6 +1,8 @@
 package com.lab.springdata;
 
-import java.util.List;
+import java.util.List; 
+
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.boot.CommandLineRunner;
 
@@ -12,15 +14,14 @@ import com.lab.springdata.entities.Book;
 import com.lab.springdata.errors.exceptions.LibraryCustomException;
 import com.lab.springdata.repositories.AuthorRepository;
 import com.lab.springdata.services.LibraryService;
-
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
 public class DevRunner implements CommandLineRunner {
 	
-	private static final int EARLIEST_DATE = 1987;
-	private static final int LATEST_DATE = 2002;
+	private static final int EARLIEST_DATE = 1980;
+	private static final int LATEST_DATE = 2020;
 	
 	private final LibraryService libraryService;
 	private final AuthorRepository authorRepository;
@@ -31,6 +32,7 @@ public class DevRunner implements CommandLineRunner {
 		int authorId = saveAuthorTest(new Author("Haruki murakami", 61.42f, books));
 		findAllBooksTest();
 		findBooksByTimeRangeTest();
+		findBooksByTimeRangeInvalidTest();
 		deleteAuthorTest(authorId);
 	}
 
@@ -65,8 +67,11 @@ public class DevRunner implements CommandLineRunner {
 	}
 	
 	private void findBooksByTimeRangeInvalidTest() throws LibraryCustomException {
-		if (libraryService.findBooksByTimeRange(new TimePeriod(LATEST_DATE, EARLIEST_DATE)).size() != 2) {
-			throw new LibraryCustomException("Library test failure! - findBooksByTimeRangeInvalidTest");
+		try {
+			libraryService.findBooksByTimeRange(new TimePeriod(LATEST_DATE, EARLIEST_DATE));
+		} catch (ConstraintViolationException e) {
+			return;
 		}
+		throw new LibraryCustomException("Library test failure! - findBooksByTimeRangeInvalidTest");
 	}
 }
