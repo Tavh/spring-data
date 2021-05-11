@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class DevRunner implements CommandLineRunner {
+public class LibraryTestsCLR implements CommandLineRunner {
 	
 	private static final int EARLIEST_DATE = 1980;
 	private static final int LATEST_DATE = 2020;
